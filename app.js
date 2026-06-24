@@ -14,7 +14,7 @@ import {
   cloudinaryRoutes,
 } from "./routes/index.js";
 
-import { connectDB } from "./config/db.config.js";
+import  connectDB  from "./config/db.config.js";
 import cron from "node-cron";
 import { cleanupUnusedUploads } from "./jobs/cleanupUploads.js";
 

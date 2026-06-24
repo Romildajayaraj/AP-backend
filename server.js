@@ -1,6 +1,6 @@
 import http from "http";
 import { app } from "./app.js";
-import { connectDB, disconnectDB } from "./config/db.config.js";
+import  connectDB  from "./config/db.config.js";
 import { initSocket } from "./socket/index.js";
 
 const PORT = process.env.PORT || 5000;
@@ -64,7 +64,7 @@ const gracefulShutdown = async (signal) => {
 const cleanupAndExit = async () => {
   try {
     console.log("Closing MongoDB connection...");
-    await disconnectDB();
+    await connectDB.disconnect(); // Assuming you have a disconnect method in your db.config.js
     console.log("MongoDB connection closed");
     console.log("Server shut down gracefully");
     process.exit(0);

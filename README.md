@@ -1,70 +1,96 @@
-Auction Platform – Backend (Node.js + Express)
+# 🖥️ Auction System Backend
 
-A RESTful API backend for managing auctions, users, bids, and authentication.
+This is the backend server for the Auction System project. It handles authentication, user management, auctions, admin dashboard, and file uploads.
 
-🚀 Features
+---
 
-🔐 Authentication
+## 🚀 Tech Stack
 
-User registration & login
-JWT-based authentication
-Protected routes
+* Node.js
+* Express.js
+* MongoDB (Atlas)
+* JWT Authentication
+* Cloudinary (for image upload)
 
-🛍️ Auction Management
+---
 
-Create auctions
-Update/Delete auctions
-Fetch all auctions
-Filter & search support
+## 📁 Project Setup
 
-💰 Bidding System
+### 1. Clone the repository
 
-Place bids
-Track highest bid
-View user bids
+```bash
+git clone <https://github.com/Romildajayaraj/AP-backend>
 
-📊 Dashboard APIs
+---
 
-Auction statistics
-Active vs closed auctions
+### 2. Install dependencies
 
-🛠️ Tech Stack
-
-Runtime: Node.js
-Framework: Express.js
-Database: MongoDB (Mongoose)
-Authentication: JWT
-
-📁 Folder Structure
-
-server/
-│
-├── controllers/   # Business logic
-├── models/        # Mongoose schemas
-├── routes/        # API routes
-├── middleware/    # Auth & error handling
-├── config/        # DB & environment config
-└── server.js
-
-⚙️ Installation & Setup
-
-cd server
+```bash
 npm install
-Create .env file
+```
+
+---
+
+### 3. Configure Environment Variables
+
+Create a `.env` file in the root folder:
+
+```env
 PORT=5000
-MONGO_URI=your_mongodb_url
-JWT_SECRET=your_secret_key
+ORIGIN=http://localhost:5173
 
-▶️ Run Server
+MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/auctionDB?retryWrites=true&w=majority
 
+JWT_SECRET=your_jwt_secret
+JWT_EXPIRES_IN=1d
+
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASS=your_app_password
+
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+
+RESEND_API_KEY=your_resend_api_key
+```
+
+---
+
+### 4. Run the server
+
+```bash
 npm run dev
+```
 
-🔗 API Base URL
+Server will run on:
 
-http://localhost:5000/api
+```
+http://localhost:5000
+```
 
-Security
+---
 
-Password hashing
-JWT authentication
-Protected routes middleware
+## 🔗 API Endpoints
+
+| Feature | Endpoint       |
+| ------- | -------------- |
+| Auth    | `/api/auth`    |
+| User    | `/api/user`    |
+| Auction | `/api/auction` |
+| Contact | `/api/contact` |
+| Admin   | `/api/admin`   |
+| Upload  | `/api/upload`  |
+
+---
+
+## 🔐 Demo Credentials
+
+```json
+{
+  "email": "testuser@gmail.com",
+  "password": "12345678"
+}
+```
+## 🧑‍💻 Author
+
+Romi ❤️

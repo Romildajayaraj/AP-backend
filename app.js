@@ -25,22 +25,22 @@ const allowedOrigins = [
   process.env.ORIGIN,
   "http://localhost:5173",
   "http://localhost:5174",
+  "https://biddingnest.netlify.app/"
   ].filter(Boolean);
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // allow requests with no origin like curl or server-to-server
-      if (!origin) return callback(null, true);
-      // allow configured origins and localhost on any port for dev
-      if (allowedOrigins.includes(origin) || origin.startsWith("http://localhost:"))
-        return callback(null, true);
-      return callback(new Error("CORS not allowed"), false);
-    },
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: function (origin, callback) {
+    // allow requests with no origin (like Postman)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error("CORS not allowed"));
+    }
+  },
+  credentials: true
+}));
 
 app.use(cookieParser());
 app.use(compression());

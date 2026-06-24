@@ -22,24 +22,26 @@ export const app = express();
 
 // Middleware
 const allowedOrigins = [
-  process.env.ORIGIN,
-  "http://localhost:5173",
-  "http://localhost:5174",
-  "https://biddingnest.netlify.app/"
-  ].filter(Boolean);
+process.env.ORIGIN,
+"http://localhost:5173",
+"http://localhost:5174",
+"https://biddingnest.netlify.app"
+].filter(Boolean);
 
 app.use(cors({
-  origin: function (origin, callback) {
-    // allow requests with no origin (like Postman)
-    if (!origin) return callback(null, true);
+origin: function (origin, callback) {
+// Allow requests with no origin (Postman, mobile apps)
+if (!origin) return callback(null, true);
 
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    } else {
-      return callback(new Error("CORS not allowed"));
-    }
-  },
-  credentials: true
+if (allowedOrigins.includes(origin)) {
+  return callback(null, true);
+}
+
+console.log("❌ Blocked by CORS:", origin); // debug
+return callback(new Error("CORS not allowed"));
+
+},
+credentials: true,
 }));
 
 app.use(cookieParser());

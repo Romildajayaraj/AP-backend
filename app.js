@@ -25,8 +25,7 @@ const allowedOrigins = [
   process.env.ORIGIN,
   "http://localhost:5173",
   "http://localhost:5174",
-  "https://auctionplatfrom-frontend.netlify.app" //
-].filter(Boolean);
+  ].filter(Boolean);
 
 app.use(
   cors({

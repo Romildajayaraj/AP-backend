@@ -52,7 +52,7 @@ export const createAuction = async (req, res) => {
       },
       itemStartDate: start,
       itemEndDate: end,
-      seller: req.user.id,
+      seller: req.user._id,
     });
     await newAuction.save();
 
@@ -332,7 +332,10 @@ export const myAuction = async (req, res) => {
     const limit = Math.min(50, Math.max(1, parseInt(req.query.limit) || 12));
     const skip = (page - 1) * limit;
 
-    const filter = { seller: req.user.id };
+    const userObjectId = new mongoose.Types.ObjectId(req.user.id); // ⭐ FIX
+
+    const filter = { seller: userObjectId }; // ⭐ FIX
+
     const total = await Product.countDocuments(filter);
 
     const auction = await Product.find(filter)
@@ -343,6 +346,7 @@ export const myAuction = async (req, res) => {
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
+
     const formatted = auction.map((item) => ({
       _id: item._id,
       itemName: item.itemName,

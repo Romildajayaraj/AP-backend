@@ -334,7 +334,7 @@ export const myAuction = async (req, res) => {
 
     const userObjectId = new mongoose.Types.ObjectId(req.user.id); // ⭐ FIX
 
-    const filter = { seller: userObjectId }; // ⭐ FIX
+    const filter = { seller: userObjectId }; // 
 
     const total = await Product.countDocuments(filter);
 

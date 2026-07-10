@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const bidSchema = new mongoose.Schema({
-  bidder: { type: mongoose.Schema.ObjectId, ref: "User", required: true },
+  bidder: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   bidAmount: { type: Number, required: true },
   bidTime: { type: Date, default: Date.now },
 });
@@ -49,13 +49,13 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     seller: {
-      type: mongoose.Schema.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
     bids: [bidSchema],
     winner: {
-      type: mongoose.Schema.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       default: null,
     },

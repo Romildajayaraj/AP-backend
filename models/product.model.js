@@ -24,6 +24,7 @@ const productSchema = new mongoose.Schema(
     itemImage: {
       public_id: {
         type: String,
+        url: String,
         required: true,
       },
       url: {

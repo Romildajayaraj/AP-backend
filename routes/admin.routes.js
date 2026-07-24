@@ -2,6 +2,10 @@ import express from "express";
 import {
   getAdminDashboard,
   getAllUsers,
+  deleteUser,
+  updateUserRole,
+  updateUserStatus,
+   getAllAuctions,
 } from "../controllers/admin.controller.js";
 import { checkAdmin, secureRoute } from "../middleware/auth.middleware.js";
 
@@ -10,5 +14,23 @@ adminRoutes.use(secureRoute);
 
 adminRoutes.get("/dashboard", checkAdmin, getAdminDashboard);
 adminRoutes.get("/users", checkAdmin, getAllUsers);
+adminRoutes.get("/auctions",checkAdmin,getAllAuctions);
+adminRoutes.delete(
+  "/users/:id",
+  checkAdmin,
+  deleteUser
+);
+
+adminRoutes.patch(
+  "/users/:id/role",
+  checkAdmin,
+  updateUserRole
+);
+
+adminRoutes.patch(
+  "/users/:id/status",
+  checkAdmin,
+  updateUserStatus
+);
 
 export default adminRoutes;

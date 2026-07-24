@@ -10,9 +10,9 @@ import {
   userRoutes,
   auctionRoutes,
   contactRoutes,
-  adminRoutes,
   cloudinaryRoutes,
 } from "./routes/index.js";
+import adminRoutes from "./routes/admin.routes.js";
 
 import  connectDB  from "./config/db.config.js";
 import cron from "node-cron";

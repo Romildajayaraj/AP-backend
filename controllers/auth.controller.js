@@ -22,6 +22,12 @@ export const handleUserLogin = async (req, res) => {
       return res.status(401).json({ error: "Invalid email or password" });
     }
 
+if (user.role === "admin") {
+  return res.status(403).json({
+    error: "Please login using the Admin Login page",
+  });
+}
+
     // generating jwt token
     const token = generateToken(user._id, user.role);
 
@@ -127,4 +133,8 @@ export const handleUserSignup = async (req, res) => {
 export const handleUserLogout = async (req, res) => {
   clearCookie(res);
   return res.status(200).json({ message: "Logged out successfully" });
+};
+
+export const handleAdminLogin = async (req, res) => {
+  return handleUserLogin(req, res);
 };

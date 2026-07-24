@@ -53,6 +53,32 @@ export const getAdminDashboard = async (req, res) => {
   }
 };
 
+export const getAllAuctions = async (req, res) => {
+  console.log("getAllAuctions called");
+
+  try {
+    const auctions = await Product.find({})
+      .populate("seller", "name email")
+      .sort({ createdAt: -1 })
+      .lean();
+
+    const formattedAuctions = auctions.map((auction) => ({
+      ...auction,
+      itemPhoto: auction.itemImage?.url || "",
+    }));
+
+    res.status(200).json({
+      success: true,
+      auctions: formattedAuctions,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 export const getAllUsers = async (req, res) => {
   try {
     // Get pagination parameters from query string
@@ -129,6 +155,104 @@ export const getAllUsers = async (req, res) => {
       success: false,
       message: "Error fetching users",
       error: error.message,
+    });
+  }
+};
+export const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    await User.findByIdAndDelete(id);
+
+    res.json({
+      success: true,
+      message: "User deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const updateUserStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const { status } = req.body;
+
+    if (!["active", "blocked"].includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid status",
+      });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      id,
+      {
+        status,
+      },
+      {
+        new: true,
+      }
+    );
+
+    res.json({
+      success: true,
+      message: "User status updated",
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const updateUserRole = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const { role } = req.body;
+
+    if (!["user", "admin"].includes(role)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid role",
+      });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      id,
+      {
+        role,
+      },
+      {
+        new: true,
+      }
+    );
+
+    res.json({
+      success: true,
+      message: "Role updated",
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
     });
   }
 };

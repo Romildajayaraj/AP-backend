@@ -136,5 +136,54 @@ export const handleUserLogout = async (req, res) => {
 };
 
 export const handleAdminLogin = async (req, res) => {
-  return handleUserLogin(req, res);
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({
+      error: "All Fields are required",
+    });
+  }
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(401).json({
+        error: "Invalid email or password",
+      });
+    }
+
+    const passwordValidate = await bcrypt.compare(
+      password,
+      user.password
+    );
+
+    if (!passwordValidate) {
+      return res.status(401).json({
+        error: "Invalid email or password",
+      });
+    }
+
+    // Allow only admins
+    if (user.role !== "admin") {
+      return res.status(403).json({
+        error: "Only Admin can login here",
+      });
+    }
+
+    const token = generateToken(user._id, user.role);
+
+    setCookie(res, token);
+
+    return res.status(200).json({
+      message: "Admin Login Successful",
+    });
+
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+      error: "Server Error",
+    });
+  }
 };

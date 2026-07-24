@@ -82,6 +82,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/auction", auctionRoutes);
 app.use("/api/contact", contactRoutes);
+app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/upload", cloudinaryRoutes);
 

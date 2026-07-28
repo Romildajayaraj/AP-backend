@@ -99,7 +99,7 @@ export const handleUserSignup = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      avatar: "https://avatar.iran.liara.run/public/7",
+      avatar: "https://ui-avatars.com/api/?name=Admin",
       ipAddress: ip,
       userAgent,
       location,
@@ -136,7 +136,12 @@ export const handleUserLogout = async (req, res) => {
 };
 
 export const handleAdminLogin = async (req, res) => {
+  console.log("====== ADMIN LOGIN HIT ======");
+  console.log(req.body);
+
   const { email, password } = req.body;
+   console.log("Email:", email);
+   console.log("Admin Login Route Hit");
 
   if (!email || !password) {
     return res.status(400).json({
@@ -146,17 +151,21 @@ export const handleAdminLogin = async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
+    console.log("User:", user);
 
     if (!user) {
       return res.status(401).json({
         error: "Invalid email or password",
       });
     }
+   console.log("Database Role:", user.role);
 
     const passwordValidate = await bcrypt.compare(
       password,
       user.password
     );
+ console.log("Password Match:", passwordValidate);
+
 
     if (!passwordValidate) {
       return res.status(401).json({

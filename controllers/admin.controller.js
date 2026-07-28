@@ -79,6 +79,29 @@ export const getAllAuctions = async (req, res) => {
   }
 };
 
+export const getUserById = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.json({
+      success: true,
+      user,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
 export const getAllUsers = async (req, res) => {
   try {
     // Get pagination parameters from query string
@@ -254,5 +277,34 @@ export const updateUserRole = async (req, res) => {
       success: false,
       message: error.message,
     });
+  }
+};
+
+export const getReports = async (req, res) => {
+  try {
+    const users = await User.countDocuments();
+    const auctions = await Auction.find();
+
+    const activeAuctions = auctions.filter(
+      a => new Date(a.itemEndDate) > new Date()
+    ).length;
+
+    const endedAuctions = auctions.length - activeAuctions;
+
+    const revenue = auctions.reduce(
+      (sum, auction) => sum + auction.startingPrice,
+      0
+    );
+
+    res.json({
+      totalUsers: users,
+      totalAuctions: auctions.length,
+      activeAuctions,
+      endedAuctions,
+      revenue,
+      recentAuctions: auctions.slice(-5).reverse(),
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };

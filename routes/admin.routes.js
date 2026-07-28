@@ -6,6 +6,7 @@ import {
   updateUserRole,
   updateUserStatus,
    getAllAuctions,
+   getUserById,
 } from "../controllers/admin.controller.js";
 import { checkAdmin, secureRoute } from "../middleware/auth.middleware.js";
 
@@ -15,8 +16,10 @@ adminRoutes.use(secureRoute);
 adminRoutes.get("/dashboard", checkAdmin, getAdminDashboard);
 adminRoutes.get("/users", checkAdmin, getAllUsers);
 adminRoutes.get("/auctions",checkAdmin,getAllAuctions);
+adminRoutes.get("/users/:id", secureRoute, checkAdmin, getUserById);
 adminRoutes.delete(
   "/users/:id",
+  secureRoute,
   checkAdmin,
   deleteUser
 );

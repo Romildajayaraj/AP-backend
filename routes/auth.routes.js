@@ -9,8 +9,9 @@ import {
 const authRoutes = express.Router();
 
 authRoutes.post("/login", handleUserLogin);
+authRoutes.post("/admin/login", handleAdminLogin);
 authRoutes.post("/signup", handleUserSignup);
 authRoutes.post("/logout", handleUserLogout);
-authRoutes.post("/admin/login", handleAdminLogin);
+
 
 export default authRoutes;

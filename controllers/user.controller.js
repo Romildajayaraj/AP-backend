@@ -71,6 +71,26 @@ export const handleChangePassword = async (req, res) => {
   }
 };
 
+export const deleteUser = async (req, res) => {
+
+   const user = await User.findById(req.params.id);
+
+   if (!user) {
+      return res.status(404).json({
+         success:false,
+         message:"User not found"
+      });
+   }
+
+   await User.findByIdAndDelete(req.params.id);
+
+   res.json({
+      success:true,
+      message:"User deleted successfully"
+   });
+
+};
+
 export const getLoginHistory = async (req, res) => {
   try {
     const userId = req.user.id;
